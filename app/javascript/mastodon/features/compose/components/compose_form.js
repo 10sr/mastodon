@@ -190,8 +190,8 @@ class ComposeForm extends ImmutablePureComponent {
           </div>
 
           <div className='compose-form__publish'>
-            <div className='character-counter__wrapper'><CharacterCounter max={500} text={text} /></div>
-            <div className='compose-form__publish-button-wrapper'><Button text={publishText} onClick={this.handleSubmit} disabled={disabled || this.props.is_uploading || text.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, "_").length > 500 || (text.length !==0 && text.trim().length === 0)} block /></div>
+            <div className='character-counter__wrapper'><CharacterCounter max={2000} text={text} /></div>
+            <div className='compose-form__publish-button-wrapper'><Button text={publishText} onClick={this.handleSubmit} disabled={disabled || this.props.is_uploading || text.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, "_").length > 2000 || (text.length !==0 && text.trim().length === 0)} block /></div>
           </div>
         </div>
       </div>
