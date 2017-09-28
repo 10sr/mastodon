@@ -18,6 +18,8 @@
 #  file_meta         :json
 #
 
+require 'mime/types'
+
 class MediaAttachment < ApplicationRecord
   self.inheritance_column = nil
 
@@ -54,13 +56,19 @@ class MediaAttachment < ApplicationRecord
 
   validates :account, presence: true
 
-  scope :attached, -> { where.not(status_id: nil) }
+  scope :attached,   -> { where.not(status_id: nil) }
   scope :unattached, -> { where(status_id: nil) }
-  scope :local, -> { where(remote_url: '') }
+  scope :local,      -> { where(remote_url: '') }
+  scope :remote,     -> { where.not(remote_url: '') }
+
   default_scope { order(id: :asc) }
 
   def local?
     remote_url.blank?
+  end
+
+  def needs_redownload?
+    file.blank? && remote_url.present?
   end
 
   def to_param
@@ -140,9 +148,11 @@ class MediaAttachment < ApplicationRecord
 
   def populate_meta
     meta = {}
+
     file.queued_for_write.each do |style, file|
       begin
         geo = Paperclip::Geometry.from_file file
+
         meta[style] = {
           width: geo.width.to_i,
           height: geo.height.to_i,
@@ -153,6 +163,7 @@ class MediaAttachment < ApplicationRecord
         meta[style] = {}
       end
     end
+
     meta
   end
 
