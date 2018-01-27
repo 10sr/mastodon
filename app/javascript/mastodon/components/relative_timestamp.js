@@ -138,7 +138,7 @@ export default class RelativeTimestamp extends React.Component {
     }
 
     // ALWAYS use absolute time format
-    relativeTime = {intl.formatDate(date, dateFormatOptions)}
+    relativeTime = intl.formatDate(date, dateFormatOptions);
 
     return (
       <time dateTime={timestamp} title={intl.formatDate(date, dateFormatOptions)}>
