@@ -61,7 +61,7 @@ function main() {
       const datetime = new Date(content.getAttribute('datetime'));
 
       content.title = dateTimeFormat.format(datetime);
-      content.textContent = relativeFormat.format(datetime);
+      content.textContent = dateTimeFormat.format(datetime);
     });
 
     [].forEach.call(document.querySelectorAll('.logo-button'), (content) => {
